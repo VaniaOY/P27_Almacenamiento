@@ -19,20 +19,22 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000d;
-        public static final int cuantasPersonas=0x7f080004;
-        public static final int datos=0x7f08000c;
-        public static final int fecha=0x7f080007;
+        public static final int action_settings=0x7f08000f;
+        public static final int button=0x7f080002;
+        public static final int cuantasPersonas=0x7f080005;
+        public static final int datos=0x7f08000e;
+        public static final int fecha=0x7f080008;
         public static final int hacerOtraReservacion=0x7f080001;
-        public static final int hora=0x7f080009;
+        public static final int hora=0x7f08000a;
+        public static final int modificar=0x7f08000d;
         public static final int muestraDatos=0x7f080000;
-        public static final int nombre=0x7f080003;
-        public static final int paquefecha=0x7f080006;
-        public static final int paquehora=0x7f080008;
-        public static final int personas=0x7f080005;
-        public static final int reserva=0x7f08000a;
-        public static final int textView1=0x7f080002;
-        public static final int verTabla=0x7f08000b;
+        public static final int nombre=0x7f080004;
+        public static final int paquefecha=0x7f080007;
+        public static final int paquehora=0x7f080009;
+        public static final int personas=0x7f080006;
+        public static final int reserva=0x7f08000b;
+        public static final int textView1=0x7f080003;
+        public static final int verTabla=0x7f08000c;
     }
     public static final class layout {
         public static final int actividad2=0x7f030000;

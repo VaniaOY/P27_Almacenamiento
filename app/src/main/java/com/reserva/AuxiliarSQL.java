@@ -9,7 +9,9 @@ public class AuxiliarSQL extends SQLiteOpenHelper{
 	
 	String SQL_Tabla = "CREATE TABLE Reservacion ("
 			+ "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-			"Nombre TEXT, Personas INTEGER, Hora TEXT," +
+			"Nombre TEXT, " +
+			"Personas INTEGER, " +
+			"Hora TEXT," +
 			"Fecha TEXT)";
 
 	public AuxiliarSQL(Context context, String DBname, 

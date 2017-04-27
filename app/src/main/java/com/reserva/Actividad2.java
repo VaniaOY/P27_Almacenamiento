@@ -26,8 +26,9 @@ public class Actividad2 extends Activity {
 	String nombre = "", fecha = "", hora = "";
 	int personas = 0;
 	TextView muestraDatos;
+    private String accion;
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.actividad2);
@@ -41,58 +42,60 @@ public class Actividad2 extends Activity {
 		personas = recibe.getInt("personas");
 		fecha = recibe.getString("fecha");
 		hora = recibe.getString("hora");
+        accion = recibe.getString("indicador");
 
-		muestraDatos.setText("Reservacion a nombre de:\n" + nombre + "\n" + personas
-				+ " personas\nFecha: " + fecha + "\nHora: " + hora + "\n");
+		if(accion != "delete"){
+            muestraDatos.setText("Reservacion a nombre de:\n" + nombre + "\n" + personas
+                    + " personas\nFecha: " + fecha + "\nHora: " + hora + "\n");
+        }
 
+    if (accion == "insert") {
+        // Ver registros de Reservacion.txt
+        String ficheroo = "/data/data/com.reserva/files/Restaurant.txt";
+        File f = new File(ficheroo);
+        StringBuffer strContent = new StringBuffer("");
+        FileInputStream fis = null;
+        int renglon;
+        try {
+            fis = new FileInputStream(f);
 
-		// Ver registros de Reservacion.txt
-		String ficheroo = "/data/data/com.reserva/files/Restaurant.txt";
-		File f=new File(ficheroo);
-		StringBuffer strContent = new StringBuffer("");
-		FileInputStream fis=null;
-		int renglon;
-		try {
-			fis=new FileInputStream(f);
+            Toast.makeText(getApplicationContext(),
+                    "Total del archivo (en bytes) : " + fis.available(),
+                    Toast.LENGTH_LONG).show();
 
-			Toast.makeText(getApplicationContext(),
-					"Total del archivo (en bytes) : " + fis.available(),
-					Toast.LENGTH_LONG).show();
+            while ((renglon = fis.read()) != -1) {
+                strContent.append((char) renglon);
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(),
+                    "Error en Lectura " + e,
+                    Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(),
+                    "Error en Lectura " + e,
+                    Toast.LENGTH_LONG).show();
+        }
 
-			while((renglon =fis.read())!=-1)
-			{
-				strContent.append((char)renglon);
-			}
-			fis.close();
-		} catch (FileNotFoundException e) {
-			Toast.makeText(getApplicationContext(),
-					"Error en Lectura " + e,
-					Toast.LENGTH_LONG).show();
-		} catch (IOException e) {
-			Toast.makeText(getApplicationContext(),
-					"Error en Lectura " + e,
-					Toast.LENGTH_LONG).show();
-		}
+        //		Almacenamiento en Fichero en Memoria interna
+        String fichero = "Restaurant.txt";
 
-		//		Almacenamiento en Fichero en Memoria interna
-		String fichero = "Restaurant.txt";
-
-		String texto = strContent + "\n\n Reserva: "+ nombre + " \n personas: " + personas + "  \n fecha: " + fecha + " \n hora:  " + hora ;
-		FileOutputStream fos;
-		try {
-			fos = openFileOutput(fichero, Context.MODE_PRIVATE);
-			fos.write( texto.getBytes());
-			fos.close();
-		} catch (FileNotFoundException e) {
-			Toast.makeText(getApplicationContext(),
-						"Error en Insert " + e,
-						Toast.LENGTH_LONG).show();
-		} catch (IOException e) {
-			Toast.makeText(getApplicationContext(),
-						"Error en Insert " + e,
-						Toast.LENGTH_LONG).show();
-		}
-
+        String texto = strContent + "\n\n Reserva: " + nombre + " \n personas: " + personas + "  \n fecha: " + fecha + " \n hora:  " + hora;
+        FileOutputStream fos;
+        try {
+            fos = openFileOutput(fichero, Context.MODE_PRIVATE);
+            fos.write(texto.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(),
+                    "Error en Insert " + e,
+                    Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(),
+                    "Error en Insert " + e,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 
 		//Almacenamiento en Fichero en Memoria xterna
 
@@ -149,7 +152,7 @@ public class Actividad2 extends Activity {
 						"No ha sido posible ercribir el archivo" + e.toString(),
 						Toast.LENGTH_LONG).show();
 				Log.e("ERROR", "No ha sido posible ercribir el archivo" + e.toString());
-*/			}
+//			}
 
 			// Borramos el archivo
 //			file.delete();
@@ -170,7 +173,7 @@ public class Actividad2 extends Activity {
 
 		//Almacenamiento en BD
 		// Definimos el nombre de la base de datos
-/*		AuxiliarSQL sql = new AuxiliarSQL(this,"DB_Restaurant", null, 1);
+		AuxiliarSQL sql = new AuxiliarSQL(this,"DB_Restaurant", null, 1);
 		// Ocupamos la base para escribir
 		final SQLiteDatabase db = sql.getWritableDatabase();
 
@@ -179,11 +182,19 @@ public class Actividad2 extends Activity {
 		datos.put("Personas", personas);
 		datos.put("Fecha", fecha);
 		datos.put("Hora", hora);
-*/
+
 		// Si la "conexion" se realiza
-/*		if(db != null){
+		if(db != null){
 			try{
-				db.insert("Reservacion", null, datos);
+                if (accion == "insert") {
+                    db.insert("Reservacion", null, datos);
+                }   else {
+                    if (accion == "update") {
+                        db.update("Reservacion", datos, "Nombre='" + nombre+"'", null);
+                    } else {
+                        db.delete("Reservacion", "Nombre='" + nombre+"'", null);
+                    }
+                }
 
 			} catch (Exception e){
 				Toast.makeText(getApplicationContext(),
@@ -196,10 +207,24 @@ public class Actividad2 extends Activity {
 					Toast.LENGTH_LONG).show();
 		}
 	}
-*/
+
 	public void hacerOtraReserva(View v) {
 		Intent envia = new Intent(this, MainActivity.class);
 		finish();
 		startActivity(envia);
 	}
+
+    public void Borrar(View v) {
+        Intent envia = new Intent(this, Actividad2.class);
+        Bundle datos = new Bundle();
+        datos.putString("nombre", nombre);
+        datos.putInt("personas", personas);
+        datos.putString("fecha", fecha);
+        datos.putString("hora", hora);
+        datos.putString("indicador", "delete");
+        envia.putExtras(datos);
+        finish();
+        startActivity(envia);
+    }
+
 }

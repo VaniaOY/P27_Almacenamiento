@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
@@ -33,6 +34,8 @@ import android.widget.TimePicker;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.R.attr.name;
 
 public class MainActivity extends Activity implements OnSeekBarChangeListener,
 		OnClickListener, OnDateSetListener, OnTimeSetListener {
@@ -173,6 +176,20 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener,
 		datos.putInt("personas", personas);
 		datos.putString("fecha", fechaSel);
 		datos.putString("hora", horaSel);
+		datos.putString("indicador", "insert");
+		envia.putExtras(datos);
+		finish();
+		startActivity(envia);
+	}
+
+	public void Modificar(View v) {
+		Intent envia = new Intent(this, Actividad2.class);
+		Bundle datos = new Bundle();
+		datos.putString("nombre", nombre.getText().toString().trim());
+		datos.putInt("personas", personas);
+		datos.putString("fecha", fechaSel);
+		datos.putString("hora", horaSel);
+		datos.putString("indicador", "update");
 		envia.putExtras(datos);
 		finish();
 		startActivity(envia);
@@ -270,7 +287,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener,
 		final SQLiteDatabase db = sql.getWritableDatabase();
 		String[] campos = {"_id", "Nombre", "Personas", "Fecha", "Hora"};
  		query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy)
-		Query the given table, returning a Cursor over the result set.
+		DownloadManager.Query the given table, returning a Cursor over the result set.
 		Cursor selectAll = db.query("Reservacion", campos, null, null, null, null, null);
 
 		int Total = selectAll.getCount();
@@ -283,7 +300,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener,
 					selectAll.getString(3) + "\n");
 		}
 		db.close();
-*/
 
+*/
 	}
 }

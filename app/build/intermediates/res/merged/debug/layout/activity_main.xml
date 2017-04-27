@@ -88,11 +88,18 @@
                 android:id="@+id/verTabla"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/reserva"
+                android:layout_below="@+id/modificar"
                 android:layout_marginTop="5dp"
                 android:onClick="verTabla"
                 android:text="Ver Tabla" />
-
+            <Button
+                android:id="@+id/modificar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reserva"
+                android:layout_marginTop="5dp"
+                android:onClick="Modificar"
+                android:text="Modificar Recervacion" />
         </RelativeLayout>
     </ScrollView>
 
